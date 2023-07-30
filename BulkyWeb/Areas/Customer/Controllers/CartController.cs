@@ -154,7 +154,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
 			if (ApplicationUser.CompanyId.GetValueOrDefault() == 0)
 			{
                 //redirect tostrip payment
-                string Domain = "https://localhost:7108/";
+                string Domain = Request.Scheme +"://" + Request.Host.Value + "/";
 				var options = new SessionCreateOptions
 				{
 					SuccessUrl = Domain+$"Customer/Cart/OrderConfirmation?id={shoppingmodel.OrderHeader.Id}",

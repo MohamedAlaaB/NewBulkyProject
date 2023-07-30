@@ -8,6 +8,7 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -116,31 +117,51 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll() 
         {
-            IEnumerable<Product> list = _unitofwork.Product.GetAll(includeprops: "Category");
+            IEnumerable<Product> list = _unitofwork.Product.GetAll(includeprops: "Category").ToList();
             return Json(new {data=list});
         }
+        //[HttpDelete]
+        //public IActionResult Delete(int? id)
+        //{
+           
+           
+        //    var producttodelete = _unitofwork.Product.Get(p => p.Id == id);
+        //    if (producttodelete == null)
+        //    {
+        //        return Json(new { Success = "false", Message = "Error" });
+        //    }
+        //    string wwwrootpath = _hostEnvironment.WebRootPath;
+        //    var oldimagepath = Path.Combine(wwwrootpath, producttodelete.ImageUrl.TrimStart('\\'));
+        //    if (System.IO.File.Exists(oldimagepath))
+        //    {
+        //        System.IO.File.Delete(oldimagepath);
+        //    }
+        //    _unitofwork.Product.Remove(producttodelete);
+        //    _unitofwork.Save();
+        //    return Json(new { Success = "true", Message = "deleted successfully" });
+        //}
+
         [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            if (id == null || id == 0)
+            var productToBeDeleted = _unitofwork.Product.Get(u => u.Id == id);
+            if (productToBeDeleted == null)
             {
-                return Json(new {Success="false",Message = "Error" });
+                return Json(new { success = false, message = "Error while deleting" });
             }
-           
-            var producttodelete = _unitofwork.Product.Get(p => p.Id == id);
-            if (producttodelete == null)
-            {
-                return Json(new { Success = "false", Message = "Error" });
-            }
+
             string wwwrootpath = _hostEnvironment.WebRootPath;
-            var oldimagepath = Path.Combine(wwwrootpath, producttodelete.ImageUrl.TrimStart('\\'));
+            var oldimagepath = Path.Combine(wwwrootpath, productToBeDeleted.ImageUrl.TrimStart('\\'));
             if (System.IO.File.Exists(oldimagepath))
             {
                 System.IO.File.Delete(oldimagepath);
             }
-            _unitofwork.Product.Remove(producttodelete);
+
+
+            _unitofwork.Product.Remove(productToBeDeleted);
             _unitofwork.Save();
-            return Json(new { Success = "true", Message = "deleted successfully" });
+
+            return Json(new { success = true, message = "Delete Successful" });
         }
         #endregion
     }
