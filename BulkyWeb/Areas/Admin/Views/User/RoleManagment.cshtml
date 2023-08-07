@@ -1,0 +1,78 @@
+﻿
+@model UserVM 
+<div class="card shadow border-0 mt-4 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class=" py-2">Edit permision</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <input hidden asp-for="user.Id" />
+           
+            <div class="border p-3">
+            
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="user.Name" class="form-control border-0 shadow" />
+                    <label asp-for="user.Name" class="ms-2"></label>
+                   
+                </div>
+
+                <div class="form-floating py-2 col-12">
+                    <select asp-for="user.Role" asp-items="Model.roles" class="form-select border-0 shadow">
+                       
+                    </select>
+                   
+                    
+                </div>
+                @{
+                    var cvisable = "display:none;"; 
+                }
+                @if (Model.user.Role == "Company")
+                {
+                    cvisable = "display:block;";
+                }
+                <div class="form-floating py-2 col-12">
+                    <select asp-for="user.CompanyId" style="@cvisable" asp-items="Model.companies" class="form-select border-0 shadow">
+                    </select>
+                </div>
+               
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                       
+                            <button type="submit" class="btn btn-primary form-control">save</button>
+                        
+                    </div>
+                    
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="User" asp-action="Index" class="btn btn-outline-primary border  form-control">
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        $(document).ready(function () {
+            $('#user_Role').change(function () {
+                var selection = $('#user_Role Option:Selected').text();
+                if (selection == 'Company') {
+                    $('#user_CompanyId').show();
+                }
+                else {
+                    $('#user_CompanyId').hide();
+                }
+            })
+        })
+    </script>
+}

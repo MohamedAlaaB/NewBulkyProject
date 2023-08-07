@@ -1,7 +1,9 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
+using Bulky.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,17 +11,20 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class AppUserRepo : Repo<Appuser>, IAppUser
+    public class ImgaeRepo : Repo<Images>, IImage
     {
         private readonly ApplicationDbContext _context;
-        public AppUserRepo(ApplicationDbContext context) : base(context)
+       
+        public ImgaeRepo(ApplicationDbContext context) : base(context)
         {
             _context = context;
+            
+            
         }
 
-      public void Update(Appuser user)
+        public void Update(Images images)
         {
-            _context.Appusers.Update(user);
+            _context.Images.Update(images);
         }
     }
 }

@@ -23,6 +23,8 @@ namespace Bulky.DataAccess.Repository
 
         public IOrderHeader OrderHeader { get; private set; }
         public IOrderDetail OrderDetail { get; private set; }
+
+        public IImage image { get; private set; }
         public Unitofwork(ApplicationDbContext context)
         {
             _context = context;
@@ -33,6 +35,7 @@ namespace Bulky.DataAccess.Repository
             ShoppingCart = new ShoppingCartRepo(_context);
             OrderHeader = new OrderHeaderRepo(_context);
             OrderDetail = new OrderDetailRepo(_context);
+            image = new ImgaeRepo(_context);
         }
 
         public void Save()

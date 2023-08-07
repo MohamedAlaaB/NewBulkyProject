@@ -11,7 +11,7 @@
     <div class="card-body p-4">
         <form method="post" class="row" enctype="multipart/form-data">
           <input hidden asp-for="Product.Id" />
-          <input hidden asp-for="Product.ImageUrl" />
+        
             <div class="border p-3">
                 @*<div asp-validation-summary="ModelOnly"></div>*@
                 <div class="form-floating py-2 col-12">
@@ -21,15 +21,28 @@
                 </div>
                 <div class="row">
                     <div class="col-10">
-                        <div class="form-floating py-2 col-12">
+                        <div class="form-floating py-2 col-10">
                             <textarea asp-for="Product.Description" class="form-control border-0 shadow"></textarea>
                             <label asp-for="Product.Description" class="ms-2"></label>
                             <span asp-validation-for="Product.Description" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-2">
-                        <img src="@Model.Product.ImageUrl" style="width:100%; border-radius: 5px; border:1px solid #bbb9b9 ; height:auto" />
+                        @if (Model.Product.Images != null)
+                        {
+                            foreach (var item in Model.Product.Images)
+                            {
+                                <div class="border p-1 m-2 text-center">
+                                    <img src="@item.Url" width="100%"
+                                         style="border-radius:5px; border:1px solid #bbb9b9" />
+                                    <a asp-action="DeleteImage" class="btn btn-danger" asp-route-imageId="@item.Id">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </a>
+                                </div>
+                            }
+                        }
                     </div>
+                    
                 </div>
                 <div class="form-floating py-2 col-12">
                     <input asp-for="Product.ISBN" class="form-control border-0 shadow" />
@@ -41,6 +54,7 @@
                     <label asp-for="Product.Author" class="ms-2"></label>
                     <span asp-validation-for="Product.Author" class="text-danger"></span>
                 </div>
+                
                 <div class="form-floating py-2 col-12">
                     <input asp-for="Product.ListPrice" class="form-control border-0 shadow" />
                     <label asp-for="Product.ListPrice" class="ms-2"></label>
@@ -62,16 +76,15 @@
                     <span asp-validation-for="Product.Price100" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <input type="file" name="file" asp-for="Product.ImageUrl" class="form-control border-0 shadow" />
-                    <label asp-for="Product.ImageUrl" class="ms-2"></label>
-                    <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
-                </div>
+                    <input type="file" name="files"  class="form-control border-0 shadow" multiple />
+                    <label asp-for="Product.Images" class="ms-2"></label>
+                  
                 <div class="form-floating py-2 col-12">
                     <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-select border-0 shadow">
                         <option disabled selected >--select category--</option>
                     </select>
                     <label asp-for="Product.CategoryId" class="ms-2"></label>
-                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                    
                 </div>
 
                 <div class="row pt-2">
@@ -89,6 +102,7 @@
                         </a>
                     </div>
                 </div>
+                
 
 
             </div>

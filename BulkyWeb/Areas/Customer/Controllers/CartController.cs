@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Stripe.Checkout;
 using System.Data;
+using System.Linq;
 using System.Security.Claims;
 
 namespace BulkyWeb.Areas.Customer.Controllers
@@ -35,8 +36,10 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 ShoppingCartList = _context.ShoppingCart.GetAll(filter: c => c.UserId == userId, includeprops: "Product"),
                 OrderHeader=new OrderHeader ()
             };
+            IEnumerable<Images> productimages = _context.image.GetAll();
             foreach (var item in shoppingmodel.ShoppingCartList)
             {
+                item.Product.Images = productimages.Where(x => x.productId == item.ProductId).ToList();
                 item.Price = pricebasedonquantity(item);
                 shoppingmodel.OrderHeader.OrderTotal += item.Price * item.Count;
             }

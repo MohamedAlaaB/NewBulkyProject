@@ -1,4 +1,5 @@
 ﻿using Bulky.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Bulky.DataAccess.Repository.IRepository
 {
     public interface IAppUser :IRepo<Appuser>
     {
-      
+       public void Update(Appuser user);
+        
     }
 }

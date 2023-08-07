@@ -17,21 +17,21 @@ namespace BulkyWeb.Areas.Admin.Controllers
     {
         private readonly IUnitofwork _unitofwork;
         private IWebHostEnvironment _hostEnvironment;
-        public CompanyController(IUnitofwork unitofwork ,IWebHostEnvironment host)
+        public CompanyController(IUnitofwork unitofwork, IWebHostEnvironment host)
         {
-                _unitofwork = unitofwork;
-                 _hostEnvironment= host;
+            _unitofwork = unitofwork;
+            _hostEnvironment = host;
         }
         public IActionResult Index()
         {
             IEnumerable<Company> list = _unitofwork.Company.GetAll();
-            
+
             return View(list);
         }
         //get 
         public IActionResult Upsert(int? id)
         {
-          
+
             if (id == 0 || id == null)
             {
                 //create
@@ -41,16 +41,16 @@ namespace BulkyWeb.Areas.Admin.Controllers
             else
             {
                 //update
-               var company = _unitofwork.Company.Get(c=>c.Id == id);
+                var company = _unitofwork.Company.Get(c => c.Id == id);
                 return View(company);
             }
-            
+
         }
         //post 
         [HttpPost]
         public IActionResult Upsert(Company company)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //string wwwrootpath = _hostEnvironment.WebRootPath;
                 //if (file != null)
@@ -71,28 +71,28 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 //    }
                 //    productview.Product.ImageUrl = @"\Images\Products\" + filename;
                 //}
-                if (company.Id == 0 )
+                if (company.Id == 0)
                 {
                     _unitofwork.Company.Add(company);
                 }
                 else
                 {
-                   _unitofwork.Company.Update(company);
+                    _unitofwork.Company.Update(company);
                 }
-               
+
                 _unitofwork.Save();
                 return RedirectToAction("Index");
             }
-            
+
             return View(company);
         }
-        //get 
-       
+        //get
+
         //public IActionResult Delete(int? id)
         //{
         //    if (id != null)
         //    {
-        //        Product x = _unitofwork.Product.Get(p => p.Id == id);
+        //        Company x = _unitofwork.Company.Get(p => p.Id == id);
         //        return View(x);
         //    }
         //    return NotFound();
@@ -100,40 +100,45 @@ namespace BulkyWeb.Areas.Admin.Controllers
         //}
         ////post 
         //[HttpPost]
-        //public IActionResult Delete(Product product)
+        //public IActionResult Delete(Company company)
         //{
-          
-        //        _unitofwork.Product.Remove(product);
-        //        _unitofwork.Save();
-        //        return RedirectToAction("Index");
-        
-           
+
+        //    _unitofwork.Company.Remove(company);
+        //    _unitofwork.Save();
+        //    return RedirectToAction("Index");
+
+
         //}
         #region Api calls
         [HttpGet]
-        public IActionResult GetAll() 
+        public IActionResult GetAll()
         {
             IEnumerable<Company> list = _unitofwork.Company.GetAll();
-            return Json(new {data=list});
+            return Json(new { data = list });
         }
+
         [HttpDelete]
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
             {
-                return Json(new {Success="false",Message = "Error" });
+                return Json(new { Success = "false", Message = "Error" });
             }
-           
+
             var companytodelete = _unitofwork.Company.Get(p => p.Id == id);
             if (companytodelete == null)
             {
                 return Json(new { Success = "false", Message = "Error" });
             }
-          
+
             _unitofwork.Company.Remove(companytodelete);
             _unitofwork.Save();
             return Json(new { Success = "true", Message = "deleted successfully" });
+          
         }
-        #endregion
     }
+
+
+    #endregion
 }
+

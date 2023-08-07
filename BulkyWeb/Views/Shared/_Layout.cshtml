@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BulkyWeb.styles.css" asp-append-version="true" />
    
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" /> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
    
@@ -44,6 +44,7 @@
                                     <a class="nav-link text-primary " asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
                                     <a class="nav-link text-primary" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
                                     <a class="nav-link text-primary" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                                    <a class="nav-link text-primary" asp-area="Admin" asp-controller="User" asp-action="Index">User</a>
                                     <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a>
                                 </ul>
                             </li>
@@ -89,7 +90,7 @@
     <script src="https://cdn.tiny.cloud/1/6mtl1rb61jbjfbnvt5q9rnwru32q82opavh4t0q1sd3ef0ro/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/30953da662.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

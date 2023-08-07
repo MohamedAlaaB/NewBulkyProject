@@ -25,9 +25,20 @@
                     {
                     <div class="col-md-10 offset-md-1">
                         <div class="row border-bottom pb-3">
-                            <div class="d-none d-lg-block col-lg-1 text-center py-2">
-                                <img src="@item.Product.ImageUrl" class="rounded" width="100%" />
-                            </div>
+                            @if (item.Product.Images != null && item.Product.Images.Count > 0)
+                            {
+                                <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                    <img src="@item.Product.Images.FirstOrDefault().Url" class="rounded" width="100%" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class=" d-none d-lg-block col-lg-1 text-center py-2">
+                                    <img src=https://placehold.co/600x500 class="card-img-top rounded" />
+                                </div>
+
+                            }
+                           
                             <div class="col-12 col-lg-6 pt-md-3">
                                 <h5 class="text-uppercase text-secondary"><strong>@item.Product.Title</strong></h5>
                                 <p><small>@Html.Raw(item.Product.Description)</small></p>
