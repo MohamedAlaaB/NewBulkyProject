@@ -28,16 +28,13 @@ function loadDataTable() {
 }
 
 function Delete(url) {
- {
-       
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                success: function (data) {
-                    dataTable.ajax.reload();
-                    toastr.success(data.message);
-                }
-            })
-        
-    }
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: function (data) {
+            dataTable.ajax.reload();
+            toastr.success(data.message);
+        }
+    })
+
 }

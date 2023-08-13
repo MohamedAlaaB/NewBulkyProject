@@ -19,16 +19,17 @@ namespace BulkyWeb.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize(Roles = SD.Role_Admin)]
     public class UserController : Controller
-    {
+    {   private readonly ApplicationDbContext _context;
         private readonly IUnitofwork _unitofwork;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private IWebHostEnvironment _hostEnvironment;
-        public UserController(IUnitofwork unitofwork ,UserManager<IdentityUser> userManager,RoleManager<IdentityRole> roleManager)
+        public UserController(IUnitofwork unitofwork ,UserManager<IdentityUser> userManager,RoleManager<IdentityRole> roleManager,ApplicationDbContext context)
         {
             _unitofwork = unitofwork;
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
 
         }
         public IActionResult Index()
@@ -81,11 +82,11 @@ namespace BulkyWeb.Areas.Admin.Controllers
         {
             
             var allroles = _roleManager.Roles.ToList();
-            var allcompanies = _unitofwork.Company.GetAll(includeprops: "Companies").ToList();
+            var allcompanies = _unitofwork.Company.GetAll().ToList();
             
             var uservm = new UserVM
             {
-                user = _unitofwork.AppUser.Get(x => x.Id == userId),
+                user = _unitofwork.AppUser.Get(x => x.Id == userId, includeprops: "Company"),
                 roles = allroles.ConvertAll(a =>
                 {
                     return new SelectListItem()
@@ -157,7 +158,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Appuser> list = _unitofwork.AppUser.GetAll(includeprops:"Companies").ToList();
+            List<Appuser> list = _unitofwork.AppUser.GetAll(includeprops:"Company").ToList();
            foreach (Appuser appuser in list)
             {
                 if (appuser.Role.IsNullOrEmpty())
@@ -169,8 +170,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                         {
                             Name = "null"
                         };
-                        _unitofwork.AppUser.Update(appuser);
-                        _unitofwork.Save();
+                        
                     }
                 }
             }
@@ -190,7 +190,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             }
 
             
-            if (objfromdb.LockoutEnd != null|| objfromdb.LockoutEnd > DateTime.Now)
+            if (objfromdb.LockoutEnd != null&& objfromdb.LockoutEnd > DateTime.Now)
             {
                 objfromdb.LockoutEnd = DateTime.Now;
                 

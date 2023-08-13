@@ -35,6 +35,7 @@ namespace Bulky
                 Options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
             builder.Services.AddAuthentication().AddFacebook(Options => { Options.AppId = "985038632664702"; Options.AppSecret = "53627fc406899f850c8e359f2ff51739"; });
+            builder.Services.AddAuthentication().AddMicrosoftAccount(Options => { Options.ClientSecret = "Z5g8Q~tk5V-pn.52XT14tis7RVysq3gQdc3VqbvE"; Options.ClientId= "b44782a4-bf3a-4e4c-bcfe-3a3cb5faf5a4"; });
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddSession(options =>
