@@ -188,7 +188,10 @@ namespace BulkyWeb.Areas.Admin.Controllers
             {
                 return Json(new { Success = "false", Message = "Error" });
             }
-
+            if (objfromdb.Role.IsNullOrEmpty())
+            {
+                objfromdb.Role = _userManager.GetRolesAsync(objfromdb).GetAwaiter().GetResult().FirstOrDefault();
+            }
             
             if (objfromdb.LockoutEnd != null&& objfromdb.LockoutEnd > DateTime.Now)
             {
